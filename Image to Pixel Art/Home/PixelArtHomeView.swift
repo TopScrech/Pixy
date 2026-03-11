@@ -21,39 +21,12 @@ struct PixelArtHomeView: View {
                     PixelArtDropZoneView(viewModel: viewModel)
                     
                     if viewModel.hasImage {
-                        ViewThatFits(in: .horizontal) {
-                            HStack(alignment: .top) {
-                                PixelArtPreviewCardView(
-                                    title: "Original",
-                                    subtitle: viewModel.sourceDimensionsLabel,
-                                    image: viewModel.originalImage,
-                                    isLoading: false
-                                )
-                                
-                                PixelArtPreviewCardView(
-                                    title: "Pixelized",
-                                    subtitle: viewModel.pixelGridLabel,
-                                    image: viewModel.pixelizedImage,
-                                    isLoading: viewModel.isRenderingPixelArt
-                                )
-                            }
-                            
-                            VStack(alignment: .leading) {
-                                PixelArtPreviewCardView(
-                                    title: "Original",
-                                    subtitle: viewModel.sourceDimensionsLabel,
-                                    image: viewModel.originalImage,
-                                    isLoading: false
-                                )
-                                
-                                PixelArtPreviewCardView(
-                                    title: "Pixelized",
-                                    subtitle: viewModel.pixelGridLabel,
-                                    image: viewModel.pixelizedImage,
-                                    isLoading: viewModel.isRenderingPixelArt
-                                )
-                            }
-                        }
+                        PixelArtPreviewCardView(
+                            title: "Pixelized",
+                            subtitle: viewModel.pixelGridLabel,
+                            image: viewModel.pixelizedImage,
+                            isLoading: viewModel.isRenderingPixelArt
+                        )
                     }
                     
                     PixelArtControlsView(viewModel: viewModel)

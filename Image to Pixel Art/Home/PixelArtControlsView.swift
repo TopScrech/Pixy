@@ -19,7 +19,7 @@ struct PixelArtControlsView: View {
                         .monospacedDigit()
                 }
                 
-                Slider(value: $viewModel.selectedPixelSize, in: 4 ... 60, step: 1)
+                Slider(value: $viewModel.selectedPixelSize, in: 1 ... 60, step: 1)
                     .disabled(!viewModel.hasImage)
                 
                 if viewModel.hasImage {
