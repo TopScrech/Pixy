@@ -2,54 +2,54 @@ import SwiftUI
 import ScrechKit
 
 struct PixelArtDropZoneView: View {
-    @Bindable var viewModel: PixelArtViewModel
+    @Bindable var vm: PixelArtVM
     
     var body: some View {
         VStack {
-            if viewModel.isLoadingImage {
+            if vm.isLoadingImage {
                 ProgressView("Importing image")
                     .progressViewStyle(.circular)
                     .frame(maxWidth: .infinity, minHeight: 240)
             } else {
                 VStack {
-                    Image(systemName: viewModel.hasImage ? "photo.stack" : "square.and.arrow.down")
+                    Image(systemName: vm.hasImage ? "photo.stack" : "square.and.arrow.down")
                         .largeTitle()
-                        .foregroundStyle(viewModel.isDropTargeted ? .red : .primary)
+                        .foregroundStyle(vm.isDropTargeted ? .red : .primary)
                     
-                    Text(viewModel.hasImage ? "Drop another image to replace the current one" : "Drop an image here")
+                    Text(vm.hasImage ? "Drop another image to replace the current one" : "Drop an image here")
                         .title2(.bold)
                     
-                    Text(viewModel.hasImage ? viewModel.sourceName : "Or pick one from your files")
+                    Text(vm.hasImage ? vm.sourceName : "Or pick one from your files")
                         .headline()
                         .secondary()
                     
                     ViewThatFits(in: .horizontal) {
                         HStack {
                             Button(
-                                viewModel.hasImage ? "Replace Image" : "Choose Image",
-                                systemImage: viewModel.hasImage ? "arrow.trianglehead.2.clockwise.rotate.90" : "folder"
+                                vm.hasImage ? "Replace Image" : "Choose Image",
+                                systemImage: vm.hasImage ? "arrow.trianglehead.2.clockwise.rotate.90" : "folder"
                             ) {
-                                viewModel.isImportingImage = true
+                                vm.isImportingImage = true
                             }
                             .buttonStyle(.borderedProminent)
                             
-                            if viewModel.hasImage {
-                                Button("Clear", systemImage: "trash", action: viewModel.clearImage)
+                            if vm.hasImage {
+                                Button("Clear", systemImage: "trash", action: vm.clearImage)
                                     .buttonStyle(.bordered)
                             }
                         }
                         
                         VStack {
                             Button(
-                                viewModel.hasImage ? "Replace Image" : "Choose Image",
-                                systemImage: viewModel.hasImage ? "arrow.trianglehead.2.clockwise.rotate.90" : "folder"
+                                vm.hasImage ? "Replace Image" : "Choose Image",
+                                systemImage: vm.hasImage ? "arrow.trianglehead.2.clockwise.rotate.90" : "folder"
                             ) {
-                                viewModel.isImportingImage = true
+                                vm.isImportingImage = true
                             }
                             .buttonStyle(.borderedProminent)
                             
-                            if viewModel.hasImage {
-                                Button("Clear", systemImage: "trash", action: viewModel.clearImage)
+                            if vm.hasImage {
+                                Button("Clear", systemImage: "trash", action: vm.clearImage)
                                     .buttonStyle(.bordered)
                             }
                         }
@@ -65,12 +65,12 @@ struct PixelArtDropZoneView: View {
                 .strokeBorder(
                     style: StrokeStyle(lineWidth: 2, dash: [12, 12])
                 )
-                .foregroundStyle(viewModel.isDropTargeted ? .red : .primary.opacity(0.25))
+                .foregroundStyle(vm.isDropTargeted ? .red : .primary.opacity(0.25))
         }
         .dropDestination(for: URL.self) { items, _ in
-            viewModel.handleDroppedItems(items)
+            vm.handleDroppedItems(items)
         } isTargeted: {
-            viewModel.isDropTargeted = $0
+            vm.isDropTargeted = $0
         }
     }
 }

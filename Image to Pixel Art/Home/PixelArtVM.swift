@@ -1,9 +1,10 @@
 import SwiftUI
 
 @Observable
-final class PixelArtViewModel {
+final class PixelArtVM {
     var selectedPixelSize = 18.0 {
         didSet {
+            PixelArtPersistence.savePixelSize(selectedPixelSize)
             schedulePixelArtRefresh()
         }
     }
@@ -23,6 +24,14 @@ final class PixelArtViewModel {
     
     @ObservationIgnored
     private var renderRevision = 0
+    
+    init() {
+        selectedPixelSize = PixelArtPersistence.loadPixelSize(defaultValue: 18)
+        
+        Task {
+            await restorePersistedImage()
+        }
+    }
     
     var hasImage: Bool {
         originalImage != nil
@@ -61,6 +70,7 @@ final class PixelArtViewModel {
         sourceName = ""
         isLoadingImage = false
         isRenderingPixelArt = false
+        PixelArtPersistence.removeImportedImage()
     }
     
     func handleImportResult(_ result: Result<URL, Error>) {
@@ -105,6 +115,7 @@ final class PixelArtViewModel {
             originalImage = loadedImage.image
             sourceName = loadedImage.name
             isLoadingImage = false
+            persistImportedImage(loadedImage.image, sourceName: loadedImage.name)
             
             schedulePixelArtRefresh()
         } catch {
@@ -162,5 +173,25 @@ final class PixelArtViewModel {
             isRenderingPixelArt = false
             importError = PixelArtImportError(message: "Pixel art rendering failed for that image")
         }
+    }
+    
+    private func restorePersistedImage() async {
+        do {
+            let restoredImage = try PixelArtPersistence.loadImportedImage()
+            
+            guard let restoredImage else {
+                return
+            }
+            
+            originalImage = restoredImage.image
+            sourceName = restoredImage.sourceName
+            schedulePixelArtRefresh()
+        } catch {
+            PixelArtPersistence.removeImportedImage()
+        }
+    }
+    
+    private func persistImportedImage(_ image: CGImage, sourceName: String) {
+        try? PixelArtPersistence.saveImportedImage(image, sourceName: sourceName)
     }
 }

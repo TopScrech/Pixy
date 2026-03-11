@@ -1,35 +1,28 @@
-//
-//  PixelArtHomeView.swift
-//  Image to Pixel Art
-//
-//  Created by Sergei Saliukov on 11/03/2026
-//
-
 import SwiftUI
 import UniformTypeIdentifiers
 
 struct PixelArtHomeView: View {
-    @State private var viewModel = PixelArtViewModel()
+    @State private var vm = PixelArtVM()
     
     var body: some View {
-        @Bindable var viewModel = viewModel
+        @Bindable var vm = vm
         
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading) {
-                    PixelArtHeroView(viewModel: viewModel)
-                    PixelArtDropZoneView(viewModel: viewModel)
+                    PixelArtHeroView(vm: vm)
+                    PixelArtDropZoneView(vm: vm)
                     
-                    if viewModel.hasImage {
+                    if vm.hasImage {
                         PixelArtPreviewCardView(
                             title: "Pixelized",
-                            subtitle: viewModel.pixelGridLabel,
-                            image: viewModel.pixelizedImage,
-                            isLoading: viewModel.isRenderingPixelArt
+                            subtitle: vm.pixelGridLabel,
+                            image: vm.pixelizedImage,
+                            isLoading: vm.isRenderingPixelArt
                         )
                     }
                     
-                    PixelArtControlsView(viewModel: viewModel)
+                    PixelArtControlsView(vm: vm)
                 }
                 .frame(maxWidth: 1120)
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -62,10 +55,10 @@ struct PixelArtHomeView: View {
             }
             .navigationTitle("Image to Pixel Art")
         }
-        .fileImporter(isPresented: $viewModel.isImportingImage, allowedContentTypes: [.image]) {
-            viewModel.handleImportResult($0)
+        .fileImporter(isPresented: $vm.isImportingImage, allowedContentTypes: [.image]) {
+            vm.handleImportResult($0)
         }
-        .alert(item: $viewModel.importError) { error in
+        .alert(item: $vm.importError) { error in
             Alert(
                 title: Text("Couldn’t import image"),
                 message: Text(error.message)

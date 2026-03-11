@@ -125,25 +125,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		F35A62892F60E4D100D70FAF /* XCRemoteSwiftPackageReference "ScrechKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/TopScrech/ScrechKit";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		F35A628A2F60E4D100D70FAF /* ScrechKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F35A62892F60E4D100D70FAF /* XCRemoteSwiftPackageReference "ScrechKit" */;
-			productName = ScrechKit;
-		};
-/* End XCSwiftPackageProductDependency section */
-
 /* Begin XCBuildConfiguration section */
 		F35A62832F60E4D000D70FAF /* Debug configuration for PBXProject "Image to Pixel Art" */ = {
 			isa = XCBuildConfiguration;
@@ -369,6 +350,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F35A62892F60E4D100D70FAF /* XCRemoteSwiftPackageReference "ScrechKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/TopScrech/ScrechKit";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F35A628A2F60E4D100D70FAF /* ScrechKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F35A62892F60E4D100D70FAF /* XCRemoteSwiftPackageReference "ScrechKit" */;
+			productName = ScrechKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F35A62722F60E4CE00D70FAF /* Project object */;
 }

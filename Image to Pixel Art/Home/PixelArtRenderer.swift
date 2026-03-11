@@ -94,6 +94,13 @@ struct PixelArtRenderer {
     nonisolated static func writePNG(image: CGImage, sourceName: String, pixelLength: Int) throws -> URL {
         let fileName = sanitizedFileName(for: sourceName, pixelLength: pixelLength)
         let url = URL.cachesDirectory.appending(path: fileName)
+        try writePNG(image: image, to: url)
+        return url
+    }
+    
+    nonisolated static func writePNG(image: CGImage, to url: URL) throws {
+        let parentDirectory = url.deletingLastPathComponent()
+        try FileManager.default.createDirectory(at: parentDirectory, withIntermediateDirectories: true)
         
         guard let destination = CGImageDestinationCreateWithURL(
             url as CFURL,
@@ -109,8 +116,6 @@ struct PixelArtRenderer {
         guard CGImageDestinationFinalize(destination) else {
             throw Failure.unableToExportImage
         }
-        
-        return url
     }
     
     nonisolated private static func sanitizedFileName(for sourceName: String, pixelLength: Int) -> String {

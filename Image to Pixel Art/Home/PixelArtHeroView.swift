@@ -2,7 +2,7 @@ import SwiftUI
 import ScrechKit
 
 struct PixelArtHeroView: View {
-    let viewModel: PixelArtViewModel
+    let vm: PixelArtVM
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -13,18 +13,18 @@ struct PixelArtHeroView: View {
                 .title3()
                 .secondary()
             
-            if viewModel.hasImage {
+            if vm.hasImage {
                 ViewThatFits(in: .horizontal) {
                     HStack {
-                        Label(viewModel.sourceDimensionsLabel, systemImage: "photo")
-                        Label(viewModel.pixelSizeLabel, systemImage: "square.grid.3x3.fill")
-                        Label(viewModel.pixelGridLabel, systemImage: "square.split.2x2")
+                        Label(vm.sourceDimensionsLabel, systemImage: "photo")
+                        Label(vm.pixelSizeLabel, systemImage: "square.grid.3x3.fill")
+                        Label(vm.pixelGridLabel, systemImage: "square.split.2x2")
                     }
                     
                     VStack(alignment: .leading) {
-                        Label(viewModel.sourceDimensionsLabel, systemImage: "photo")
-                        Label(viewModel.pixelSizeLabel, systemImage: "square.grid.3x3.fill")
-                        Label(viewModel.pixelGridLabel, systemImage: "square.split.2x2")
+                        Label(vm.sourceDimensionsLabel, systemImage: "photo")
+                        Label(vm.pixelSizeLabel, systemImage: "square.grid.3x3.fill")
+                        Label(vm.pixelGridLabel, systemImage: "square.split.2x2")
                     }
                 }
                 .headline()

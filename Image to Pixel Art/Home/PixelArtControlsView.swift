@@ -2,7 +2,7 @@ import SwiftUI
 import ScrechKit
 
 struct PixelArtControlsView: View {
-    @Bindable var viewModel: PixelArtViewModel
+    @Bindable var vm: PixelArtVM
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -15,15 +15,15 @@ struct PixelArtControlsView: View {
             
             VStack(alignment: .leading) {
                 LabeledContent("Pixel size") {
-                    Text(viewModel.pixelSizeLabel)
+                    Text(vm.pixelSizeLabel)
                         .monospacedDigit()
                 }
                 
-                Slider(value: $viewModel.selectedPixelSize, in: 1 ... 60, step: 1)
-                    .disabled(!viewModel.hasImage)
+                Slider(value: $vm.selectedPixelSize, in: 1...100, step: 1)
+                    .disabled(!vm.hasImage)
                 
-                if viewModel.hasImage {
-                    Text(viewModel.pixelGridLabel)
+                if vm.hasImage {
+                    Text(vm.pixelGridLabel)
                         .headline()
                         .secondary()
                 } else {
@@ -33,34 +33,11 @@ struct PixelArtControlsView: View {
                 }
             }
             
-            ViewThatFits(in: .horizontal) {
-                HStack {
-                    Button("Choose Image", systemImage: "folder") {
-                        viewModel.isImportingImage = true
-                    }
-                    .buttonStyle(.bordered)
-                    
-                    if let exportURL = viewModel.exportURL {
-                        ShareLink(item: exportURL) {
-                            Label("Export PNG", systemImage: "square.and.arrow.up")
-                        }
-                        .buttonStyle(.borderedProminent)
-                    }
+            if let exportURL = vm.exportURL {
+                ShareLink(item: exportURL) {
+                    Label("Export PNG", systemImage: "square.and.arrow.up")
                 }
-                
-                VStack(alignment: .leading) {
-                    Button("Choose Image", systemImage: "folder") {
-                        viewModel.isImportingImage = true
-                    }
-                    .buttonStyle(.bordered)
-                    
-                    if let exportURL = viewModel.exportURL {
-                        ShareLink(item: exportURL) {
-                            Label("Export PNG", systemImage: "square.and.arrow.up")
-                        }
-                        .buttonStyle(.borderedProminent)
-                    }
-                }
+                .buttonStyle(.borderedProminent)
             }
         }
         .padding()
