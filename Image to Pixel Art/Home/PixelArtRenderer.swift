@@ -9,12 +9,9 @@ struct PixelArtRenderer {
         
         var errorDescription: String? {
             switch self {
-            case .unreadableImage:
-                return "The image data couldn’t be decoded"
-            case .unableToCreateContext:
-                return "The pixel art preview couldn’t be rendered"
-            case .unableToExportImage:
-                return "The PNG export couldn’t be written"
+            case .unreadableImage: "The image data couldn’t be decoded"
+            case .unableToCreateContext: "The pixel art preview couldn’t be rendered"
+            case .unableToExportImage: "The PNG export couldn’t be written"
             }
         }
     }
@@ -35,6 +32,7 @@ struct PixelArtRenderer {
         let pixelWidth = properties?[kCGImagePropertyPixelWidth] as? Int ?? 1
         let pixelHeight = properties?[kCGImagePropertyPixelHeight] as? Int ?? 1
         let maxPixelSize = max(pixelWidth, pixelHeight, 1)
+        
         let options: [CFString: Any] = [
             kCGImageSourceCreateThumbnailFromImageAlways: true,
             kCGImageSourceCreateThumbnailWithTransform: true,

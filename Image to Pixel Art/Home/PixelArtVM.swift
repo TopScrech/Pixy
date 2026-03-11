@@ -177,9 +177,7 @@ final class PixelArtVM {
     
     private func restorePersistedImage() async {
         do {
-            let restoredImage = try PixelArtPersistence.loadImportedImage()
-            
-            guard let restoredImage else {
+            guard let restoredImage = try PixelArtPersistence.loadImportedImage() else {
                 return
             }
             
