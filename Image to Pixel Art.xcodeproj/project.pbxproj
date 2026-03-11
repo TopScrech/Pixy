@@ -6,6 +6,10 @@
 	objectVersion = 100;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F35A62882F60E4D100D70FAF /* ScrechKit in Frameworks */ = {isa = PBXBuildFile; productRef = F35A628A2F60E4D100D70FAF /* ScrechKit */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		F35A627A2F60E4CE00D70FAF /* Image to Pixel Art.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Image to Pixel Art.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -22,6 +26,7 @@
 		F35A62772F60E4CE00D70FAF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
+				F35A62882F60E4D100D70FAF /* ScrechKit in Frameworks */,
 			);
 		};
 /* End PBXFrameworksBuildPhase section */
@@ -60,6 +65,9 @@
 				F35A627C2F60E4CE00D70FAF /* Image to Pixel Art */,
 			);
 			name = "Image to Pixel Art";
+			packageProductDependencies = (
+				F35A628A2F60E4D100D70FAF /* ScrechKit */,
+			);
 			productName = "Image to Pixel Art";
 			productReference = F35A627A2F60E4CE00D70FAF /* Image to Pixel Art.app */;
 			productType = "com.apple.product-type.application";
@@ -88,6 +96,9 @@
 			);
 			mainGroup = F35A62712F60E4CE00D70FAF;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				F35A62892F60E4D100D70FAF /* XCRemoteSwiftPackageReference "ScrechKit" */,
+			);
 			preferredProjectObjectVersion = 100;
 			productRefGroup = F35A627B2F60E4CE00D70FAF /* Products */;
 			projectDirPath = "";
@@ -113,6 +124,25 @@
 			);
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F35A62892F60E4D100D70FAF /* XCRemoteSwiftPackageReference "ScrechKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/TopScrech/ScrechKit";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F35A628A2F60E4D100D70FAF /* ScrechKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F35A62892F60E4D100D70FAF /* XCRemoteSwiftPackageReference "ScrechKit" */;
+			productName = ScrechKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCBuildConfiguration section */
 		F35A62832F60E4D000D70FAF /* Debug configuration for PBXProject "Image to Pixel Art" */ = {

@@ -1,4 +1,5 @@
 import SwiftUI
+import ScrechKit
 
 struct PixelArtDropZoneView: View {
     @Bindable var viewModel: PixelArtViewModel
@@ -12,16 +13,15 @@ struct PixelArtDropZoneView: View {
             } else {
                 VStack {
                     Image(systemName: viewModel.hasImage ? "photo.stack" : "square.and.arrow.down")
-                        .font(.largeTitle)
+                        .largeTitle()
                         .foregroundStyle(viewModel.isDropTargeted ? .red : .primary)
                     
                     Text(viewModel.hasImage ? "Drop another image to replace the current one" : "Drop an image here")
-                        .font(.title2)
-                        .bold()
+                        .title2(.bold)
                     
                     Text(viewModel.hasImage ? viewModel.sourceName : "Or pick one from your files")
-                        .font(.headline)
-                        .foregroundStyle(.secondary)
+                        .headline()
+                        .secondary()
                     
                     ViewThatFits(in: .horizontal) {
                         HStack {

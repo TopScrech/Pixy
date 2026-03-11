@@ -1,4 +1,5 @@
 import SwiftUI
+import ScrechKit
 
 struct PixelArtControlsView: View {
     @Bindable var viewModel: PixelArtViewModel
@@ -6,12 +7,11 @@ struct PixelArtControlsView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text("Pixel settings")
-                .font(.title2)
-                .bold()
+                .title2(.bold)
             
             Text("Increase the block size for a chunkier result and export the PNG when it looks right")
-                .font(.headline)
-                .foregroundStyle(.secondary)
+                .headline()
+                .secondary()
             
             VStack(alignment: .leading) {
                 LabeledContent("Pixel size") {
@@ -24,12 +24,12 @@ struct PixelArtControlsView: View {
                 
                 if viewModel.hasImage {
                     Text(viewModel.pixelGridLabel)
-                        .font(.headline)
-                        .foregroundStyle(.secondary)
+                        .headline()
+                        .secondary()
                 } else {
                     Text("Choose or drop an image to unlock the preview")
-                        .font(.headline)
-                        .foregroundStyle(.secondary)
+                        .headline()
+                        .secondary()
                 }
             }
             

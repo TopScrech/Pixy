@@ -1,4 +1,5 @@
 import SwiftUI
+import ScrechKit
 
 struct PixelArtPreviewCardView: View {
     let title: String
@@ -9,12 +10,11 @@ struct PixelArtPreviewCardView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text(title)
-                .font(.title3)
-                .bold()
+                .title3(.bold)
             
             Text(subtitle)
-                .font(.headline)
-                .foregroundStyle(.secondary)
+                .headline()
+                .secondary()
             
             ZStack {
                 RoundedRectangle(cornerRadius: 28)

@@ -1,4 +1,5 @@
 import SwiftUI
+import ScrechKit
 
 struct PixelArtHeroView: View {
     let viewModel: PixelArtViewModel
@@ -6,12 +7,11 @@ struct PixelArtHeroView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text("Turn any image into chunky pixel art")
-                .font(.largeTitle)
-                .bold()
+                .largeTitle(.bold)
             
             Text("Drop in a PNG, JPEG, WEBP, or HEIC, tune the block size, and export a crisp pixel version")
-                .font(.title3)
-                .foregroundStyle(.secondary)
+                .title3()
+                .secondary()
             
             if viewModel.hasImage {
                 ViewThatFits(in: .horizontal) {
@@ -27,7 +27,7 @@ struct PixelArtHeroView: View {
                         Label(viewModel.pixelGridLabel, systemImage: "square.split.2x2")
                     }
                 }
-                .font(.headline)
+                .headline()
                 .padding()
                 .background(.regularMaterial, in: .rect(cornerRadius: 28))
             }
