@@ -21,6 +21,9 @@ final class PixelArtViewModel {
     @ObservationIgnored
     private var refreshTask: Task<Void, Never>?
     
+    @ObservationIgnored
+    private var renderRevision = 0
+    
     var hasImage: Bool {
         originalImage != nil
     }
@@ -50,6 +53,7 @@ final class PixelArtViewModel {
     
     func clearImage() {
         refreshTask?.cancel()
+        renderRevision += 1
         originalImage = nil
         pixelizedImage = nil
         exportURL = nil
@@ -88,6 +92,7 @@ final class PixelArtViewModel {
     
     private func loadImage(from url: URL) async {
         refreshTask?.cancel()
+        renderRevision += 1
         importError = nil
         isLoadingImage = true
         isRenderingPixelArt = false
@@ -101,7 +106,7 @@ final class PixelArtViewModel {
             sourceName = loadedImage.name
             isLoadingImage = false
             
-            await renderPixelArt(for: loadedImage.image)
+            schedulePixelArtRefresh()
         } catch {
             isLoadingImage = false
             importError = PixelArtImportError(message: "That image couldn’t be loaded as a bitmap")
@@ -114,22 +119,16 @@ final class PixelArtViewModel {
         }
         
         refreshTask?.cancel()
+        renderRevision += 1
+        let revision = renderRevision
+        
         refreshTask = Task {
             isRenderingPixelArt = true
-            
-            try? await Task.sleep(for: .milliseconds(120))
-            
-            guard !Task.isCancelled else {
-                return
-            }
-            
-            await renderPixelArt(for: originalImage)
+            await renderPixelArt(for: originalImage, revision: revision)
         }
     }
     
-    private func renderPixelArt(for image: CGImage) async {
-        isRenderingPixelArt = true
-        
+    private func renderPixelArt(for image: CGImage, revision: Int) async {
         let pixelLength = max(1, Int(selectedPixelSize.rounded()))
         let sourceName = sourceName
         
@@ -148,7 +147,7 @@ final class PixelArtViewModel {
                 return (pixelizedImage, exportURL)
             }.value
             
-            guard !Task.isCancelled else {
+            guard !Task.isCancelled, revision == renderRevision else {
                 return
             }
             
@@ -156,6 +155,10 @@ final class PixelArtViewModel {
             exportURL = rendered.1
             isRenderingPixelArt = false
         } catch {
+            guard !Task.isCancelled, revision == renderRevision else {
+                return
+            }
+            
             isRenderingPixelArt = false
             importError = PixelArtImportError(message: "Pixel art rendering failed for that image")
         }
