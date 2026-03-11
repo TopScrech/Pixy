@@ -8,6 +8,13 @@ final class PixelArtVM {
             schedulePixelArtRefresh()
         }
     }
+
+    var usesTwoColors = false {
+        didSet {
+            PixelArtPersistence.saveUsesTwoColors(usesTwoColors)
+            schedulePixelArtRefresh()
+        }
+    }
     
     var isImportingImage = false
     var isLoadingImage = false
@@ -27,6 +34,7 @@ final class PixelArtVM {
     
     init() {
         selectedPixelSize = PixelArtPersistence.loadPixelSize(defaultValue: 18)
+        usesTwoColors = PixelArtPersistence.loadUsesTwoColors()
         
         Task {
             await restorePersistedImage()
@@ -58,6 +66,10 @@ final class PixelArtVM {
         let columns = max(1, originalImage.width / pixelLength)
         let rows = max(1, originalImage.height / pixelLength)
         return "\(columns.formatted()) × \(rows.formatted()) blocks"
+    }
+
+    var colorModeLabel: String {
+        usesTwoColors ? "Pure black and white only" : "Full color"
     }
     
     func clearImage() {
@@ -142,17 +154,23 @@ final class PixelArtVM {
     private func renderPixelArt(for image: CGImage, revision: Int) async {
         let pixelLength = max(1, Int(selectedPixelSize.rounded()))
         let sourceName = sourceName
+        let usesTwoColors = usesTwoColors
         
         do {
             let rendered = try await Task.detached(priority: .userInitiated) {
-                guard let pixelizedImage = PixelArtRenderer.pixelize(image, pixelLength: pixelLength) else {
+                guard let pixelizedImage = PixelArtRenderer.pixelize(
+                    image,
+                    pixelLength: pixelLength,
+                    usesTwoColors: usesTwoColors
+                ) else {
                     throw PixelArtRenderer.Failure.unableToCreateContext
                 }
                 
                 let exportURL = try PixelArtRenderer.writePNG(
                     image: pixelizedImage,
                     sourceName: sourceName,
-                    pixelLength: pixelLength
+                    pixelLength: pixelLength,
+                    usesTwoColors: usesTwoColors
                 )
                 
                 return (pixelizedImage, exportURL)

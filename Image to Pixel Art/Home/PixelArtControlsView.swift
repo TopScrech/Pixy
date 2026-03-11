@@ -32,6 +32,19 @@ struct PixelArtControlsView: View {
                         .secondary()
                 }
             }
+
+            Toggle("Black & White", isOn: $vm.usesTwoColors)
+                .disabled(!vm.hasImage)
+
+            Text("Turns every block into pure black or pure white with no gray shades")
+                .headline()
+                .secondary()
+
+            if vm.hasImage {
+                Text(vm.colorModeLabel)
+                    .headline()
+                    .secondary()
+            }
             
             if let exportURL = vm.exportURL {
                 ShareLink(item: exportURL) {

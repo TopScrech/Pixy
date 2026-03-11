@@ -47,7 +47,7 @@ struct PixelArtRenderer {
         return (image, url.deletingPathExtension().lastPathComponent)
     }
     
-    nonisolated static func pixelize(_ image: CGImage, pixelLength: Int) -> CGImage? {
+    nonisolated static func pixelize(_ image: CGImage, pixelLength: Int, usesTwoColors: Bool) -> CGImage? {
         let pixelWidth = max(1, image.width / max(1, pixelLength))
         let pixelHeight = max(1, image.height / max(1, pixelLength))
         let colorSpace = CGColorSpace(name: CGColorSpace.sRGB) ?? CGColorSpaceCreateDeviceRGB()
@@ -71,6 +71,18 @@ struct PixelArtRenderer {
         guard let reducedImage = reducedContext.makeImage() else {
             return nil
         }
+
+        let outputImage: CGImage
+
+        if usesTwoColors {
+            guard let blackAndWhiteImage = twoColorImage(from: reducedImage) else {
+                return nil
+            }
+
+            outputImage = blackAndWhiteImage
+        } else {
+            outputImage = reducedImage
+        }
         
         guard let outputContext = CGContext(
             data: nil,
@@ -85,12 +97,16 @@ struct PixelArtRenderer {
         }
         
         outputContext.interpolationQuality = .none
-        outputContext.draw(reducedImage, in: CGRect(x: 0, y: 0, width: image.width, height: image.height))
+        outputContext.draw(outputImage, in: CGRect(x: 0, y: 0, width: image.width, height: image.height))
         return outputContext.makeImage()
     }
     
-    nonisolated static func writePNG(image: CGImage, sourceName: String, pixelLength: Int) throws -> URL {
-        let fileName = sanitizedFileName(for: sourceName, pixelLength: pixelLength)
+    nonisolated static func writePNG(image: CGImage, sourceName: String, pixelLength: Int, usesTwoColors: Bool) throws -> URL {
+        let fileName = sanitizedFileName(
+            for: sourceName,
+            pixelLength: pixelLength,
+            usesTwoColors: usesTwoColors
+        )
         let url = URL.cachesDirectory.appending(path: fileName)
         try writePNG(image: image, to: url)
         return url
@@ -116,12 +132,66 @@ struct PixelArtRenderer {
         }
     }
     
-    nonisolated private static func sanitizedFileName(for sourceName: String, pixelLength: Int) -> String {
+    nonisolated private static func twoColorImage(from image: CGImage) -> CGImage? {
+        let colorSpace = CGColorSpace(name: CGColorSpace.sRGB) ?? CGColorSpaceCreateDeviceRGB()
+        let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue
+
+        guard let context = CGContext(
+            data: nil,
+            width: image.width,
+            height: image.height,
+            bitsPerComponent: 8,
+            bytesPerRow: 0,
+            space: colorSpace,
+            bitmapInfo: bitmapInfo
+        ) else {
+            return nil
+        }
+
+        context.draw(image, in: CGRect(x: 0, y: 0, width: image.width, height: image.height))
+
+        guard let data = context.data else {
+            return nil
+        }
+
+        let byteCount = context.bytesPerRow * image.height
+        let pixels = data.bindMemory(to: UInt8.self, capacity: byteCount)
+
+        for pixelOffset in stride(from: 0, to: byteCount, by: 4) {
+            let alpha = pixels[pixelOffset + 3]
+
+            if alpha == 0 {
+                pixels[pixelOffset] = 0
+                pixels[pixelOffset + 1] = 0
+                pixels[pixelOffset + 2] = 0
+                continue
+            }
+
+            let red = Double(pixels[pixelOffset])
+            let green = Double(pixels[pixelOffset + 1])
+            let blue = Double(pixels[pixelOffset + 2])
+            let luminance = (0.2126 * red) + (0.7152 * green) + (0.0722 * blue)
+            let colorValue: UInt8 = luminance >= 128 ? 255 : 0
+
+            pixels[pixelOffset] = colorValue
+            pixels[pixelOffset + 1] = colorValue
+            pixels[pixelOffset + 2] = colorValue
+        }
+
+        return context.makeImage()
+    }
+
+    nonisolated private static func sanitizedFileName(
+        for sourceName: String,
+        pixelLength: Int,
+        usesTwoColors: Bool
+    ) -> String {
         let cleanedName = sourceName
             .replacing(/[^\p{Letter}\p{Number}]+/, with: "-")
             .trimmingCharacters(in: CharacterSet(charactersIn: "-"))
         
         let fallbackName = cleanedName.isEmpty ? "pixel-art" : cleanedName
-        return "\(fallbackName)-\(pixelLength.formatted())px.png"
+        let colorModeSuffix = usesTwoColors ? "-black-white" : ""
+        return "\(fallbackName)-\(pixelLength.formatted())px\(colorModeSuffix).png"
     }
 }
