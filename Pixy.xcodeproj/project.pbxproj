@@ -12,6 +12,7 @@
 
 /* Begin PBXFileReference section */
 		F35A627A2F60E4CE00D70FAF /* Pixy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pixy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3A8126F2FA8AA5B006CA117 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -35,6 +36,7 @@
 		F35A62712F60E4CE00D70FAF = {
 			isa = PBXGroup;
 			children = (
+				F3A8126F2FA8AA5B006CA117 /* README.md */,
 				F35A627C2F60E4CE00D70FAF /* Pixy */,
 				F35A627B2F60E4CE00D70FAF /* Products */,
 			);
