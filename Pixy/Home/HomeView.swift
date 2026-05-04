@@ -2,7 +2,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct HomeView: View {
-    @State private var vm = PixelArtVM()
+    @State private var vm = PixyVM()
     
     var body: some View {
         @Bindable var vm = vm

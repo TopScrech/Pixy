@@ -1,7 +1,7 @@
 import ScrechKit
 
 struct DropZone: View {
-    @Bindable var vm: PixelArtVM
+    @Bindable var vm: PixyVM
     
     var body: some View {
         VStack {

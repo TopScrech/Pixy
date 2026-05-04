@@ -1,5 +1,5 @@
-import CoreGraphics
 import Foundation
+import CoreGraphics
 
 private let pixelArtSelectedPixelSizeKey = "pixelArt.selectedPixelSize"
 private let pixelArtUsesTwoColorsKey = "pixelArt.usesTwoColors"
@@ -26,7 +26,7 @@ struct PixelArtPersistence {
     
     static func saveImportedImage(_ image: CGImage, sourceName: String) throws {
         let imageURL = try persistedImageURL()
-        try PixelArtRenderer.writePNG(image: image, to: imageURL)
+        try Renderer.writePNG(image: image, to: imageURL)
         
         UserDefaults.standard.set(sourceName, forKey: pixelArtSourceNameKey)
     }
@@ -38,7 +38,7 @@ struct PixelArtPersistence {
             return nil
         }
         
-        let loadedImage = try PixelArtRenderer.loadImage(from: imageURL)
+        let loadedImage = try Renderer.loadImage(from: imageURL)
         let sourceName = UserDefaults.standard.string(forKey: pixelArtSourceNameKey) ?? loadedImage.name
         
         return (loadedImage.image, sourceName)

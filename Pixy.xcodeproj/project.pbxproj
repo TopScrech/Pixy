@@ -11,13 +11,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		F35A627A2F60E4CE00D70FAF /* Image to Pixel Art.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Image to Pixel Art.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F35A627A2F60E4CE00D70FAF /* Pixy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pixy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		F35A627C2F60E4CE00D70FAF /* Image to Pixel Art */ = {
+		F35A627C2F60E4CE00D70FAF /* Pixy */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Image to Pixel Art";
+			path = Pixy;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -35,7 +35,7 @@
 		F35A62712F60E4CE00D70FAF = {
 			isa = PBXGroup;
 			children = (
-				F35A627C2F60E4CE00D70FAF /* Image to Pixel Art */,
+				F35A627C2F60E4CE00D70FAF /* Pixy */,
 				F35A627B2F60E4CE00D70FAF /* Products */,
 			);
 			sourceTree = "<group>";
@@ -43,7 +43,7 @@
 		F35A627B2F60E4CE00D70FAF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F35A627A2F60E4CE00D70FAF /* Image to Pixel Art.app */,
+				F35A627A2F60E4CE00D70FAF /* Pixy.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -51,9 +51,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		F35A62792F60E4CE00D70FAF /* Image to Pixel Art */ = {
+		F35A62792F60E4CE00D70FAF /* Pixy */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F35A62852F60E4D000D70FAF /* Build configuration list for PBXNativeTarget "Image to Pixel Art" */;
+			buildConfigurationList = F35A62852F60E4D000D70FAF /* Build configuration list for PBXNativeTarget "Pixy" */;
 			buildPhases = (
 				F35A62762F60E4CE00D70FAF /* Sources */,
 				F35A62772F60E4CE00D70FAF /* Frameworks */,
@@ -62,14 +62,14 @@
 			buildRules = (
 			);
 			fileSystemSynchronizedGroups = (
-				F35A627C2F60E4CE00D70FAF /* Image to Pixel Art */,
+				F35A627C2F60E4CE00D70FAF /* Pixy */,
 			);
-			name = "Image to Pixel Art";
+			name = Pixy;
 			packageProductDependencies = (
 				F35A628A2F60E4D100D70FAF /* ScrechKit */,
 			);
 			productName = "Image to Pixel Art";
-			productReference = F35A627A2F60E4CE00D70FAF /* Image to Pixel Art.app */;
+			productReference = F35A627A2F60E4CE00D70FAF /* Pixy.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -87,7 +87,7 @@
 					};
 				};
 			};
-			buildConfigurationList = F35A62752F60E4CE00D70FAF /* Build configuration list for PBXProject "Image to Pixel Art" */;
+			buildConfigurationList = F35A62752F60E4CE00D70FAF /* Build configuration list for PBXProject "Pixy" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -104,7 +104,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F35A62792F60E4CE00D70FAF /* Image to Pixel Art */,
+				F35A62792F60E4CE00D70FAF /* Pixy */,
 			);
 		};
 /* End PBXProject section */
@@ -126,7 +126,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		F35A62832F60E4D000D70FAF /* Debug configuration for PBXProject "Image to Pixel Art" */ = {
+		F35A62832F60E4D000D70FAF /* Debug configuration for PBXProject "Pixy" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -190,7 +190,7 @@
 			};
 			name = Debug;
 		};
-		F35A62842F60E4D000D70FAF /* Release configuration for PBXProject "Image to Pixel Art" */ = {
+		F35A62842F60E4D000D70FAF /* Release configuration for PBXProject "Pixy" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -246,7 +246,7 @@
 			};
 			name = Release;
 		};
-		F35A62862F60E4D000D70FAF /* Debug configuration for PBXNativeTarget "Image to Pixel Art" */ = {
+		F35A62862F60E4D000D70FAF /* Debug configuration for PBXNativeTarget "Pixy" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -260,6 +260,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Pixy;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -275,7 +276,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "dev.topscrech.Image-to-Pixel-Art";
+				PRODUCT_BUNDLE_IDENTIFIER = dev.topscrech.Pixy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
@@ -291,7 +292,7 @@
 			};
 			name = Debug;
 		};
-		F35A62872F60E4D000D70FAF /* Release configuration for PBXNativeTarget "Image to Pixel Art" */ = {
+		F35A62872F60E4D000D70FAF /* Release configuration for PBXNativeTarget "Pixy" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -305,6 +306,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Pixy;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -320,7 +322,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "dev.topscrech.Image-to-Pixel-Art";
+				PRODUCT_BUNDLE_IDENTIFIER = dev.topscrech.Pixy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
@@ -339,19 +341,19 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F35A62752F60E4CE00D70FAF /* Build configuration list for PBXProject "Image to Pixel Art" */ = {
+		F35A62752F60E4CE00D70FAF /* Build configuration list for PBXProject "Pixy" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F35A62832F60E4D000D70FAF /* Debug configuration for PBXProject "Image to Pixel Art" */,
-				F35A62842F60E4D000D70FAF /* Release configuration for PBXProject "Image to Pixel Art" */,
+				F35A62832F60E4D000D70FAF /* Debug configuration for PBXProject "Pixy" */,
+				F35A62842F60E4D000D70FAF /* Release configuration for PBXProject "Pixy" */,
 			);
 			defaultConfigurationName = Release;
 		};
-		F35A62852F60E4D000D70FAF /* Build configuration list for PBXNativeTarget "Image to Pixel Art" */ = {
+		F35A62852F60E4D000D70FAF /* Build configuration list for PBXNativeTarget "Pixy" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F35A62862F60E4D000D70FAF /* Debug configuration for PBXNativeTarget "Image to Pixel Art" */,
-				F35A62872F60E4D000D70FAF /* Release configuration for PBXNativeTarget "Image to Pixel Art" */,
+				F35A62862F60E4D000D70FAF /* Debug configuration for PBXNativeTarget "Pixy" */,
+				F35A62872F60E4D000D70FAF /* Release configuration for PBXNativeTarget "Pixy" */,
 			);
 			defaultConfigurationName = Release;
 		};

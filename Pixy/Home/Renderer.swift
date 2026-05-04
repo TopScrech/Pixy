@@ -1,7 +1,7 @@
 import ImageIO
 import UniformTypeIdentifiers
 
-struct PixelArtRenderer {
+struct Renderer {
     enum Failure: LocalizedError {
         case unreadableImage, unableToCreateContext, unableToExportImage
         

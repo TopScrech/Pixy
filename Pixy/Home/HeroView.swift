@@ -1,7 +1,7 @@
 import ScrechKit
 
 struct HeroView: View {
-    let vm: PixelArtVM
+    let vm: PixyVM
     
     var body: some View {
         VStack(alignment: .leading) {

@@ -1,7 +1,7 @@
 import SwiftUI
 
 @Observable
-final class PixelArtVM {
+final class PixyVM {
     var selectedPixelSize = 18.0 {
         didSet {
             PixelArtPersistence.savePixelSize(selectedPixelSize)
@@ -119,7 +119,7 @@ final class PixelArtVM {
         
         do {
             let loadedImage = try await Task.detached(priority: .userInitiated) {
-                try PixelArtRenderer.loadImage(from: url)
+                try Renderer.loadImage(from: url)
             }.value
             
             originalImage = loadedImage.image
@@ -156,15 +156,15 @@ final class PixelArtVM {
         
         do {
             let rendered = try await Task.detached(priority: .userInitiated) {
-                guard let pixelizedImage = PixelArtRenderer.pixelize(
+                guard let pixelizedImage = Renderer.pixelize(
                     image,
                     pixelLength: pixelLength,
                     usesTwoColors: usesTwoColors
                 ) else {
-                    throw PixelArtRenderer.Failure.unableToCreateContext
+                    throw Renderer.Failure.unableToCreateContext
                 }
                 
-                let exportURL = try PixelArtRenderer.writePNG(
+                let exportURL = try Renderer.writePNG(
                     image: pixelizedImage,
                     sourceName: sourceName,
                     pixelLength: pixelLength,

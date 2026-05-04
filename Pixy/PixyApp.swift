@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct ImagetoPixelArtApp: App {
+struct PixyApp: App {
     var body: some Scene {
         WindowGroup {
             HomeView()
