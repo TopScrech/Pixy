@@ -1,7 +1,6 @@
-import SwiftUI
 import ScrechKit
 
-struct PixelArtHeroView: View {
+struct HeroView: View {
     let vm: PixelArtVM
     
     var body: some View {

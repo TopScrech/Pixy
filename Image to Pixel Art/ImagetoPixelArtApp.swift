@@ -4,7 +4,7 @@ import SwiftUI
 struct ImagetoPixelArtApp: App {
     var body: some Scene {
         WindowGroup {
-            PixelArtHomeView()
+            HomeView()
         }
     }
 }

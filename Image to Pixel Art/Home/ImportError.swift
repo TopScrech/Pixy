@@ -1,6 +1,6 @@
 import Foundation
 
-struct PixelArtImportError: Error, Identifiable {
+struct ImportError: Error, Identifiable {
     let id = UUID()
     let message: String
 }

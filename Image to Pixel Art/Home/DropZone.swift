@@ -1,7 +1,6 @@
-import SwiftUI
 import ScrechKit
 
-struct PixelArtDropZoneView: View {
+struct DropZone: View {
     @Bindable var vm: PixelArtVM
     
     var body: some View {

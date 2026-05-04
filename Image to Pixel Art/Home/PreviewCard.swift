@@ -1,7 +1,6 @@
-import SwiftUI
 import ScrechKit
 
-struct PixelArtPreviewCardView: View {
+struct PreviewCard: View {
     let title: String
     let subtitle: String
     let image: CGImage?

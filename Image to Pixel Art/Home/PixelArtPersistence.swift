@@ -15,11 +15,11 @@ struct PixelArtPersistence {
     static func savePixelSize(_ pixelSize: Double) {
         UserDefaults.standard.set(pixelSize, forKey: pixelArtSelectedPixelSizeKey)
     }
-
+    
     static func loadUsesTwoColors() -> Bool {
         UserDefaults.standard.bool(forKey: pixelArtUsesTwoColorsKey)
     }
-
+    
     static func saveUsesTwoColors(_ usesTwoColors: Bool) {
         UserDefaults.standard.set(usesTwoColors, forKey: pixelArtUsesTwoColorsKey)
     }
@@ -27,6 +27,7 @@ struct PixelArtPersistence {
     static func saveImportedImage(_ image: CGImage, sourceName: String) throws {
         let imageURL = try persistedImageURL()
         try PixelArtRenderer.writePNG(image: image, to: imageURL)
+        
         UserDefaults.standard.set(sourceName, forKey: pixelArtSourceNameKey)
     }
     
@@ -39,6 +40,7 @@ struct PixelArtPersistence {
         
         let loadedImage = try PixelArtRenderer.loadImage(from: imageURL)
         let sourceName = UserDefaults.standard.string(forKey: pixelArtSourceNameKey) ?? loadedImage.name
+        
         return (loadedImage.image, sourceName)
     }
     

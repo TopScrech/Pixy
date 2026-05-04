@@ -1,7 +1,7 @@
 import SwiftUI
 import UniformTypeIdentifiers
 
-struct PixelArtHomeView: View {
+struct HomeView: View {
     @State private var vm = PixelArtVM()
     
     var body: some View {
@@ -10,11 +10,11 @@ struct PixelArtHomeView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading) {
-                    PixelArtHeroView(vm: vm)
-                    PixelArtDropZoneView(vm: vm)
+                    HeroView(vm: vm)
+                    DropZone(vm: vm)
                     
                     if vm.hasImage {
-                        PixelArtPreviewCardView(
+                        PreviewCard(
                             title: "Pixelized",
                             subtitle: vm.pixelGridLabel,
                             image: vm.pixelizedImage,
@@ -22,7 +22,7 @@ struct PixelArtHomeView: View {
                         )
                     }
                     
-                    PixelArtControlsView(vm: vm)
+                    ControlsView(vm: vm)
                 }
                 .frame(maxWidth: 1120)
                 .frame(maxWidth: .infinity, alignment: .center)

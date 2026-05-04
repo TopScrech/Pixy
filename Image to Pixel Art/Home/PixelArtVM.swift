@@ -8,7 +8,7 @@ final class PixelArtVM {
             schedulePixelArtRefresh()
         }
     }
-
+    
     var usesTwoColors = false {
         didSet {
             PixelArtPersistence.saveUsesTwoColors(usesTwoColors)
@@ -23,7 +23,7 @@ final class PixelArtVM {
     var originalImage: CGImage?
     var pixelizedImage: CGImage?
     var exportURL: URL?
-    var importError: PixelArtImportError?
+    var importError: ImportError?
     var sourceName = ""
     
     @ObservationIgnored
@@ -65,11 +65,8 @@ final class PixelArtVM {
         let pixelLength = max(1, Int(selectedPixelSize.rounded()))
         let columns = max(1, originalImage.width / pixelLength)
         let rows = max(1, originalImage.height / pixelLength)
+        
         return "\(columns.formatted()) × \(rows.formatted()) blocks"
-    }
-
-    var colorModeLabel: String {
-        usesTwoColors ? "Pure black and white only" : "Full color"
     }
     
     func clearImage() {
@@ -91,12 +88,13 @@ final class PixelArtVM {
             Task {
                 await loadImage(from: url)
             }
+            
         case .failure(let error):
             if (error as NSError).code == NSUserCancelledError {
                 return
             }
             
-            importError = PixelArtImportError(message: "That image couldn’t be opened")
+            importError = ImportError(message: "That image couldn’t be opened")
         }
     }
     
@@ -132,7 +130,7 @@ final class PixelArtVM {
             schedulePixelArtRefresh()
         } catch {
             isLoadingImage = false
-            importError = PixelArtImportError(message: "That image couldn’t be loaded as a bitmap")
+            importError = ImportError(message: "That image couldn’t be loaded as a bitmap")
         }
     }
     
@@ -189,7 +187,7 @@ final class PixelArtVM {
             }
             
             isRenderingPixelArt = false
-            importError = PixelArtImportError(message: "Pixel art rendering failed for that image")
+            importError = ImportError(message: "Pixel art rendering failed for that image")
         }
     }
     
