@@ -5,9 +5,6 @@ struct HeroView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Turn any image into chunky pixel art")
-                .largeTitle(.bold)
-            
             if vm.hasImage {
                 ViewThatFits(in: .horizontal) {
                     HStack {
