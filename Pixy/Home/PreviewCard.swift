@@ -39,6 +39,10 @@ struct PreviewCard: View {
                 }
             }
             .frame(maxWidth: .infinity, minHeight: 320)
+            
+            Text("Original image resolution: \(vm.sourceDimensionsLabel) px")
+                .headline()
+                .secondary()
         }
         .padding()
         .background(.ultraThinMaterial, in: .rect(cornerRadius: 32))

@@ -9,7 +9,6 @@ struct HomeView: View {
         
         ScrollView {
             VStack(alignment: .leading) {
-                HeroView()
                 DropZone()
                 
                 if vm.hasImage {
