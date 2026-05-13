@@ -59,44 +59,30 @@ struct PixelArtPersistence {
         UserDefaults.standard.set(usesTwoColors, forKey: usesTwoColorsKey)
     }
     
-    nonisolated static func saveImportedImage(from sourceURL: URL, sourceName: String) throws {
-        let isScoped = sourceURL.startAccessingSecurityScopedResource()
-        defer {
-            if isScoped {
-                sourceURL.stopAccessingSecurityScopedResource()
-            }
-        }
-        
-        let bookmark = try sourceURL.bookmarkData(
-            options: bookmarkCreationOptions,
-            includingResourceValuesForKeys: nil,
-            relativeTo: nil
-        )
+    nonisolated static func saveImportedImage(image: CGImage, sourceURL: URL, sourceName: String) throws {
+        let imageURL = try persistedImageURL()
+        try Renderer.writePNG(image: image, to: imageURL)
         
         if Task.isCancelled {
             return
         }
         
-        UserDefaults.standard.set(bookmark, forKey: sourceBookmarkKey)
+        saveSourceBookmark(for: sourceURL)
         UserDefaults.standard.set(sourceName, forKey: sourceNameKey)
     }
     
     nonisolated static func loadImportedImage() throws -> (image: CGImage, sourceName: String)? {
-        if let restoredImage = try loadBookmarkedImage() {
-            return restoredImage
-        }
-        
         let imageURL = try persistedImageURL()
         try migratePersistedImageIfNeeded(to: imageURL)
         
-        guard FileManager.default.fileExists(atPath: imageURL.path()) else {
-            return nil
+        if FileManager.default.fileExists(atPath: imageURL.path()) {
+            let loadedImage = try Renderer.loadImage(from: imageURL)
+            let sourceName = UserDefaults.standard.string(forKey: sourceNameKey) ?? loadedImage.name
+            
+            return (loadedImage.image, sourceName)
         }
         
-        let loadedImage = try Renderer.loadImage(from: imageURL)
-        let sourceName = UserDefaults.standard.string(forKey: sourceNameKey) ?? loadedImage.name
-        
-        return (loadedImage.image, sourceName)
+        return try loadBookmarkedImage()
     }
     
     nonisolated static func removeImportedImage() {
@@ -135,8 +121,36 @@ struct PixelArtPersistence {
         
         let loadedImage = try Renderer.loadImage(from: url)
         let sourceName = UserDefaults.standard.string(forKey: sourceNameKey) ?? loadedImage.name
+        let imageURL = try persistedImageURL()
+        try Renderer.writePNG(image: loadedImage.image, to: imageURL)
         
-        return (loadedImage.image, sourceName)
+        if Task.isCancelled {
+            return nil
+        }
+        
+        let persistedImage = try Renderer.loadImage(from: imageURL)
+        
+        return (persistedImage.image, sourceName)
+    }
+    
+    nonisolated private static func saveSourceBookmark(for sourceURL: URL) {
+        let isScoped = sourceURL.startAccessingSecurityScopedResource()
+        defer {
+            if isScoped {
+                sourceURL.stopAccessingSecurityScopedResource()
+            }
+        }
+        
+        guard let bookmark = try? sourceURL.bookmarkData(
+            options: bookmarkCreationOptions,
+            includingResourceValuesForKeys: nil,
+            relativeTo: nil
+        ) else {
+            UserDefaults.standard.removeObject(forKey: sourceBookmarkKey)
+            return
+        }
+        
+        UserDefaults.standard.set(bookmark, forKey: sourceBookmarkKey)
     }
     
     nonisolated private static func persistedImageURL() throws -> URL {

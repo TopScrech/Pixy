@@ -137,7 +137,11 @@ final class PixyVM {
             originalImage = loadedImage.image
             sourceName = loadedImage.name
             isLoadingImage = false
-            persistImportedImage(from: url, sourceName: loadedImage.name)
+            persistImportedImage(
+                image: loadedImage.image,
+                sourceURL: url,
+                sourceName: loadedImage.name
+            )
             
             schedulePixelArtRefresh()
         } catch {
@@ -221,10 +225,14 @@ final class PixyVM {
         }
     }
     
-    private func persistImportedImage(from url: URL, sourceName: String) {
+    private func persistImportedImage(image: CGImage, sourceURL: URL, sourceName: String) {
         persistenceTask?.cancel()
         persistenceTask = Task.detached(priority: .utility) {
-            try? PixelArtPersistence.saveImportedImage(from: url, sourceName: sourceName)
+            try? PixelArtPersistence.saveImportedImage(
+                image: image,
+                sourceURL: sourceURL,
+                sourceName: sourceName
+            )
         }
     }
 }
