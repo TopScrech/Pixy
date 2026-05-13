@@ -5,7 +5,7 @@ struct ClearImageButton: View {
     
     var body: some View {
         Button("Clear", systemImage: "trash", role: .destructive, action: vm.clearImage)
-            .buttonStyle(.bordered)
+            .buttonStyle(.borderedProminent)
             .labelStyle(.iconOnly)
             .buttonBorderShape(.circle)
     }
