@@ -25,10 +25,21 @@ struct HomeView: View {
         .navigationTitle("Image to Pixel Art")
         .scrollIndicators(.never)
         .background(HomeViewBackground())
-        .environment(vm)
         .task {
             await vm.restorePersistedImageIfNeeded()
         }
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                ImageImportMenu(title: "Import", icon: "photo.on.rectangle")
+            }
+            
+            if vm.hasImage {
+                ToolbarItem(placement: .topBarTrailing) {
+                    ExportImageButton()
+                }
+            }
+        }
+        .environment(vm)
         .fileImporter(isPresented: $vm.isImportingImage, allowedContentTypes: [.image]) {
             vm.handleImportResult($0)
         }

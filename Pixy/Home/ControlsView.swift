@@ -25,12 +25,6 @@ struct ControlsView: View {
             
             Toggle("Black & White", isOn: $vm.usesTwoColors)
             
-            if let exportURL = vm.exportURL {
-                ShareLink(item: exportURL) {
-                    Label("Export PNG", systemImage: "square.and.arrow.up")
-                }
-                .buttonStyle(.borderedProminent)
-            }
         }
         .padding()
         .background(.regularMaterial, in: .rect(cornerRadius: 32))
