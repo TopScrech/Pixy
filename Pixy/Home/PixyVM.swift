@@ -17,6 +17,8 @@ final class PixyVM {
     }
     
     var isImportingImage = false
+    var isPickingPhoto = false
+    var isTakingPhoto = false
     var isLoadingImage = false
     var isRenderingPixelArt = false
     var isDropTargeted = false
@@ -112,6 +114,27 @@ final class PixyVM {
         }
     }
     
+    func handlePhotoPickerData(_ data: Data?) {
+        guard let data else {
+            importError = ImportError(message: "That photo couldn’t be opened")
+            return
+        }
+        
+        Task {
+            await loadImage(from: data, sourceName: "Photo Library")
+        }
+    }
+    
+    func handleCameraData(_ data: Data?) {
+        guard let data else {
+            return
+        }
+        
+        Task {
+            await loadImage(from: data, sourceName: "Camera")
+        }
+    }
+    
     func handleDroppedItems(_ items: [URL]) -> Bool {
         guard let url = items.first else {
             return false
@@ -142,6 +165,34 @@ final class PixyVM {
             persistImportedImage(
                 image: loadedImage.image,
                 sourceURL: url,
+                sourceName: loadedImage.name
+            )
+            
+            schedulePixelArtRefresh()
+        } catch {
+            isLoadingImage = false
+            importError = ImportError(message: "That image couldn’t be loaded as a bitmap")
+        }
+    }
+    
+    private func loadImage(from data: Data, sourceName: String) async {
+        refreshTask?.cancel()
+        renderRevision += 1
+        importError = nil
+        isLoadingImage = true
+        isRenderingPixelArt = false
+        
+        do {
+            let loadedImage = try await Task.detached(priority: .userInitiated) {
+                try Renderer.loadImage(from: data, name: sourceName)
+            }.value
+            
+            originalImage = loadedImage.image
+            self.sourceName = loadedImage.name
+            isLoadingImage = false
+            persistImportedImage(
+                image: loadedImage.image,
+                sourceURL: nil,
                 sourceName: loadedImage.name
             )
             
@@ -237,7 +288,7 @@ final class PixyVM {
         }
     }
     
-    private func persistImportedImage(image: CGImage, sourceURL: URL, sourceName: String) {
+    private func persistImportedImage(image: CGImage, sourceURL: URL?, sourceName: String) {
         persistenceTask?.cancel()
         persistenceTask = Task.detached(priority: .utility) {
             try? PixelArtPersistence.saveImportedImage(

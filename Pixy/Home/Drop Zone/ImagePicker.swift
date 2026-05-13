@@ -12,8 +12,23 @@ struct ImagePicker: View {
     }
     
     var body: some View {
-        Button(title, systemImage: icon) {
-            vm.isImportingImage = true
+        Menu {
+#if os(iOS)
+            Button("Camera", systemImage: "camera") {
+                vm.isTakingPhoto = true
+            }
+            .disabled(!UIImagePickerController.isSourceTypeAvailable(.camera))
+#endif
+            
+            Button("Photo Library", systemImage: "photo.on.rectangle") {
+                vm.isPickingPhoto = true
+            }
+            
+            Button("Files", systemImage: "folder") {
+                vm.isImportingImage = true
+            }
+        } label: {
+            Label(title, systemImage: icon)
         }
         .buttonStyle(.borderedProminent)
     }

@@ -1,8 +1,10 @@
 import SwiftUI
+import PhotosUI
 import UniformTypeIdentifiers
 
 struct HomeView: View {
     @State private var vm = PixyVM()
+    @State private var selectedPhotoItem: PhotosPickerItem?
     
     var body: some View {
         @Bindable var vm = vm
@@ -30,6 +32,28 @@ struct HomeView: View {
         .fileImporter(isPresented: $vm.isImportingImage, allowedContentTypes: [.image]) {
             vm.handleImportResult($0)
         }
+        .photosPicker(
+            isPresented: $vm.isPickingPhoto,
+            selection: $selectedPhotoItem,
+            matching: .images
+        )
+        .onChange(of: selectedPhotoItem) { _, newItem in
+            guard let newItem else {
+                return
+            }
+            
+            Task {
+                vm.handlePhotoPickerData(try? await newItem.loadTransferable(type: Data.self))
+                selectedPhotoItem = nil
+            }
+        }
+#if os(iOS)
+        .sheet(isPresented: $vm.isTakingPhoto) {
+            CameraImagePicker {
+                vm.handleCameraData($0)
+            }
+        }
+#endif
         .alert(item: $vm.importError) { error in
             Alert(
                 title: Text("Couldn’t import image"),

@@ -45,6 +45,29 @@ struct Renderer {
         return (image, url.deletingPathExtension().lastPathComponent)
     }
     
+    nonisolated static func loadImage(from data: Data, name: String) throws -> (image: CGImage, name: String) {
+        guard let source = CGImageSourceCreateWithData(data as CFData, nil) else {
+            throw Failure.unreadableImage
+        }
+        
+        let properties = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as? [CFString: Any]
+        let pixelWidth = properties?[kCGImagePropertyPixelWidth] as? Int ?? 1
+        let pixelHeight = properties?[kCGImagePropertyPixelHeight] as? Int ?? 1
+        let maxPixelSize = max(pixelWidth, pixelHeight, 1)
+        let options: [CFString: Any] = [
+            kCGImageSourceCreateThumbnailFromImageAlways: true,
+            kCGImageSourceCreateThumbnailWithTransform: true,
+            kCGImageSourceThumbnailMaxPixelSize: maxPixelSize,
+            kCGImageSourceShouldCacheImmediately: true
+        ]
+        
+        guard let image = CGImageSourceCreateThumbnailAtIndex(source, 0, options as CFDictionary) else {
+            throw Failure.unreadableImage
+        }
+        
+        return (image, name)
+    }
+    
     nonisolated static func pixelize(_ image: CGImage, pixelLength: Int, usesTwoColors: Bool) -> CGImage? {
         let pixelWidth = max(1, image.width / max(1, pixelLength))
         let pixelHeight = max(1, image.height / max(1, pixelLength))

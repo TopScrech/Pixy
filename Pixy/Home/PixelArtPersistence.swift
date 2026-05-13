@@ -27,19 +27,19 @@ struct PixelArtPersistence {
     }
     
     nonisolated private static var bookmarkCreationOptions: URL.BookmarkCreationOptions {
-        #if os(macOS)
+#if os(macOS)
         [.minimalBookmark, .withSecurityScope]
-        #else
-        .minimalBookmark
-        #endif
+#else
+            .minimalBookmark
+#endif
     }
     
     nonisolated private static var bookmarkResolutionOptions: URL.BookmarkResolutionOptions {
-        #if os(macOS)
+#if os(macOS)
         [.withoutUI, .withSecurityScope]
-        #else
-        .withoutUI
-        #endif
+#else
+            .withoutUI
+#endif
     }
     
     nonisolated static func loadPixelSize(defaultValue: Double) -> Double {
@@ -59,7 +59,7 @@ struct PixelArtPersistence {
         UserDefaults.standard.set(usesTwoColors, forKey: usesTwoColorsKey)
     }
     
-    nonisolated static func saveImportedImage(image: CGImage, sourceURL: URL, sourceName: String) throws {
+    nonisolated static func saveImportedImage(image: CGImage, sourceURL: URL?, sourceName: String) throws {
         let imageURL = try persistedImageURL()
         try Renderer.writePNG(image: image, to: imageURL)
         
@@ -67,7 +67,12 @@ struct PixelArtPersistence {
             return
         }
         
-        saveSourceBookmark(for: sourceURL)
+        if let sourceURL {
+            saveSourceBookmark(for: sourceURL)
+        } else {
+            UserDefaults.standard.removeObject(forKey: sourceBookmarkKey)
+        }
+        
         UserDefaults.standard.set(sourceName, forKey: sourceNameKey)
     }
     
