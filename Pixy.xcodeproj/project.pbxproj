@@ -7,11 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F31EEA912FB5319D000ECD36 /* DropZoneActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31EEA902FB5319D000ECD36 /* DropZoneActions.swift */; };
+		F31EEA932FB533F7000ECD36 /* ClearImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31EEA922FB533F7000ECD36 /* ClearImageButton.swift */; };
 		F35A62882F60E4D100D70FAF /* ScrechKit in Frameworks */ = {isa = PBXBuildFile; productRef = F35A628A2F60E4D100D70FAF /* ScrechKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		F31EEA8F2FB4CD0E000ECD36 /* UNLICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = UNLICENSE.txt; sourceTree = "<group>"; };
+		F31EEA902FB5319D000ECD36 /* DropZoneActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropZoneActions.swift; sourceTree = "<group>"; };
+		F31EEA922FB533F7000ECD36 /* ClearImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearImageButton.swift; sourceTree = "<group>"; };
 		F35A627A2F60E4CE00D70FAF /* Pixy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pixy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3A8126F2FA8AA5B006CA117 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -37,6 +41,8 @@
 		F35A62712F60E4CE00D70FAF = {
 			isa = PBXGroup;
 			children = (
+				F31EEA902FB5319D000ECD36 /* DropZoneActions.swift */,
+				F31EEA922FB533F7000ECD36 /* ClearImageButton.swift */,
 				F3A8126F2FA8AA5B006CA117 /* README.md */,
 				F35A627C2F60E4CE00D70FAF /* Pixy */,
 				F31EEA8F2FB4CD0E000ECD36 /* UNLICENSE.txt */,
@@ -125,6 +131,8 @@
 		F35A62762F60E4CE00D70FAF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			files = (
+				F31EEA932FB533F7000ECD36 /* ClearImageButton.swift in Sources */,
+				F31EEA912FB5319D000ECD36 /* DropZoneActions.swift in Sources */,
 			);
 		};
 /* End PBXSourcesBuildPhase section */

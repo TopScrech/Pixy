@@ -22,25 +22,7 @@ struct DropZone: View {
                         .headline()
                         .secondary()
                     
-                    ViewThatFits(in: .horizontal) {
-                        HStack {
-                            ImagePicker()
-                            
-                            if vm.hasImage {
-                                Button("Clear", systemImage: "trash", action: vm.clearImage)
-                                    .buttonStyle(.bordered)
-                            }
-                        }
-                        
-                        VStack {
-                            ImagePicker()
-                            
-                            if vm.hasImage {
-                                Button("Clear", systemImage: "trash", action: vm.clearImage)
-                                    .buttonStyle(.bordered)
-                            }
-                        }
-                    }
+                    DropZoneActions()
                 }
                 .frame(maxWidth: .infinity, minHeight: 240)
                 .padding()
