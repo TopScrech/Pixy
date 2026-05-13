@@ -8,10 +8,6 @@ struct HeroView: View {
             Text("Turn any image into chunky pixel art")
                 .largeTitle(.bold)
             
-            Text("Drop in a PNG, JPEG, WEBP, or HEIC, tune the block size, and export a crisp pixel version")
-                .title3()
-                .secondary()
-            
             if vm.hasImage {
                 ViewThatFits(in: .horizontal) {
                     HStack {
