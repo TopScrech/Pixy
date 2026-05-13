@@ -5,12 +5,16 @@ struct PreviewCard: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Pixelized")
-                .title3(.bold)
-            
-            Label("\(vm.sourceDimensionsLabel)", systemImage: "photo")
-                .headline()
-                .secondary()
+            HStack {
+                Text("Preview")
+                    .title3(.bold)
+                
+                Spacer()
+                
+                Text(vm.sourceDimensionsLabel)
+                    .secondary()
+            }
+            .padding(.horizontal, 5)
             
             ZStack {
                 RoundedRectangle(cornerRadius: 28)

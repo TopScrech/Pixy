@@ -30,7 +30,7 @@ struct HomeView: View {
         }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
-                ImageImportMenu(title: "Import", icon: "photo.on.rectangle")
+                ImageImportMenu(icon: "photo.on.rectangle")
             }
             
             if vm.hasImage {

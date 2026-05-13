@@ -6,23 +6,28 @@ struct ControlsView: View {
     var body: some View {
         @Bindable var vm = vm
         
-        VStack(alignment: .leading) {
-            Text("Pixel settings")
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Customization")
                 .title2(.bold)
             
-            VStack(alignment: .leading) {
-                LabeledContent("Pixel size") {
-                    Text(vm.pixelSizeLabel)
-                        .monospacedDigit()
-                }
+            HStack(spacing: 0) {
+                Text("Pixel size")
+                    .semibold()
                 
-                Slider(value: $vm.selectedPixelSize, in: 1...100, step: 1)
+                Spacer()
                 
                 Text(vm.pixelGridLabel)
-                    .headline()
+                    .secondary()
+                
+                Text(" • ")
+                    .secondary()
+                
+                Text(vm.pixelSizeLabel)
                     .secondary()
                     .monospacedDigit()
             }
+            
+            Slider(value: $vm.selectedPixelSize, in: 1...100, step: 1)
             
             Picker("Color mode", selection: $vm.colorMode) {
                 ForEach(PixelColorMode.allCases) {

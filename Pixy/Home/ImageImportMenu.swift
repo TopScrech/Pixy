@@ -3,7 +3,6 @@ import SwiftUI
 struct ImageImportMenu: View {
     @Environment(PixyVM.self) private var vm
     
-    let title: LocalizedStringKey
     let icon: String
     
     var body: some View {
@@ -22,7 +21,7 @@ struct ImageImportMenu: View {
                 vm.isImportingImage = true
             }
         } label: {
-            Label(title, systemImage: icon)
+            Label("Import", systemImage: icon)
         }
     }
 }
