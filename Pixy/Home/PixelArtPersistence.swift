@@ -59,6 +59,7 @@ struct PixelArtPersistence {
             .appending(path: "Image to Pixel Art", directoryHint: .isDirectory)
         
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        
         return directory.appending(path: pixelArtPersistedImageName)
     }
 }

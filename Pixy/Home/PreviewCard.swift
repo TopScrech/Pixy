@@ -1,17 +1,14 @@
 import ScrechKit
 
 struct PreviewCard: View {
-    let title: String
-    let subtitle: String
-    let image: CGImage?
-    let isLoading: Bool
+    @Environment(PixyVM.self) private var vm
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text(title)
+            Text("Pixelized")
                 .title3(.bold)
             
-            Text(subtitle)
+            Text(vm.pixelGridLabel)
                 .headline()
                 .secondary()
             
@@ -19,14 +16,16 @@ struct PreviewCard: View {
                 RoundedRectangle(cornerRadius: 28)
                     .fill(.white.opacity(0.78))
                 
-                if let image {
+                if let image = vm.pixelizedImage {
                     Image(decorative: image, scale: 1)
                         .interpolation(.none)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .padding()
-                } else if isLoading {
+                    
+                } else if vm.isRenderingPixelArt {
                     ProgressView("Rendering pixel art")
+                    
                 } else {
                     ContentUnavailableView(
                         "No Preview Yet",

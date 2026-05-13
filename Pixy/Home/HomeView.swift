@@ -13,15 +13,10 @@ struct HomeView: View {
                 DropZone()
                 
                 if vm.hasImage {
-                    PreviewCard(
-                        title: "Pixelized",
-                        subtitle: vm.pixelGridLabel,
-                        image: vm.pixelizedImage,
-                        isLoading: vm.isRenderingPixelArt
-                    )
+                    PreviewCard()
                 }
                 
-                ControlsView(vm: vm)
+                ControlsView()
             }
             .frame(maxWidth: 1120)
             .frame(maxWidth: .infinity, alignment: .center)

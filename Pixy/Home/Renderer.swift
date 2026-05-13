@@ -96,6 +96,7 @@ struct Renderer {
         
         outputContext.interpolationQuality = .none
         outputContext.draw(outputImage, in: CGRect(x: 0, y: 0, width: image.width, height: image.height))
+        
         return outputContext.makeImage()
     }
     

@@ -49,9 +49,7 @@ struct DropZone: View {
         .background(.thinMaterial, in: .rect(cornerRadius: 32))
         .overlay {
             RoundedRectangle(cornerRadius: 32)
-                .strokeBorder(
-                    style: StrokeStyle(lineWidth: 2, dash: [12, 12])
-                )
+                .strokeBorder(style: StrokeStyle(lineWidth: 2, dash: [12, 12]))
                 .foregroundStyle(vm.isDropTargeted ? .red : .primary.opacity(0.25))
         }
         .dropDestination(for: URL.self) { items, _ in

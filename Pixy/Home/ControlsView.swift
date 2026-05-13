@@ -1,9 +1,11 @@
 import ScrechKit
 
 struct ControlsView: View {
-    @Bindable var vm: PixyVM
+    @Environment(PixyVM.self) private var vm
     
     var body: some View {
+        @Bindable var vm = vm
+        
         VStack(alignment: .leading) {
             Text("Pixel settings")
                 .title2(.bold)
