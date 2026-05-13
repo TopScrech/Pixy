@@ -60,6 +60,14 @@ final class PixyVM {
         return "\(originalImage.width.formatted()) × \(originalImage.height.formatted())"
     }
     
+    var sourceAspectRatio: CGFloat? {
+        guard let originalImage else {
+            return nil
+        }
+        
+        return CGFloat(originalImage.width) / CGFloat(originalImage.height)
+    }
+    
     var pixelGridLabel: String {
         guard let originalImage else {
             return "No pixel grid yet"

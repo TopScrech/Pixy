@@ -13,6 +13,9 @@ struct PreviewCard: View {
                 .secondary()
             
             ZStack {
+                RoundedRectangle(cornerRadius: 28)
+                    .fill(.clear)
+                
                 if let image = vm.pixelizedImage {
                     Image(decorative: image, scale: 1)
                         .interpolation(.none)
@@ -38,6 +41,7 @@ struct PreviewCard: View {
                     .padding()
                 }
             }
+            .aspectRatio(vm.sourceAspectRatio, contentMode: .fit)
             .frame(maxWidth: .infinity, minHeight: 320)
             
             Text("Original image resolution: \(vm.sourceDimensionsLabel) px")
