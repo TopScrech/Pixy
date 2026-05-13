@@ -13,20 +13,23 @@ struct PreviewCard: View {
                 .secondary()
             
             ZStack {
-                RoundedRectangle(cornerRadius: 28)
-                    .fill(.white.opacity(0.78))
-                
                 if let image = vm.pixelizedImage {
                     Image(decorative: image, scale: 1)
                         .interpolation(.none)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .padding()
+                        .clipShape(.rect(cornerRadius: 28))
                     
                 } else if vm.isRenderingPixelArt {
+                    RoundedRectangle(cornerRadius: 28)
+                        .fill(.white.opacity(0.78))
+                    
                     ProgressView("Rendering pixel art")
                     
                 } else {
+                    RoundedRectangle(cornerRadius: 28)
+                        .fill(.white.opacity(0.78))
+                    
                     ContentUnavailableView(
                         "No Preview Yet",
                         systemImage: "sparkles.rectangle.stack",
