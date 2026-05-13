@@ -24,6 +24,9 @@ struct HomeView: View {
         .scrollIndicators(.never)
         .background(HomeViewBackground())
         .environment(vm)
+        .task {
+            await vm.restorePersistedImageIfNeeded()
+        }
         .fileImporter(isPresented: $vm.isImportingImage, allowedContentTypes: [.image]) {
             vm.handleImportResult($0)
         }

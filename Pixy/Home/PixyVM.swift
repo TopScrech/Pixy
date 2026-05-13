@@ -35,13 +35,15 @@ final class PixyVM {
     @ObservationIgnored
     private var renderRevision = 0
     
+    @ObservationIgnored
+    private var hasRestoredPersistedImage = false
+    
+    @ObservationIgnored
+    private var isRestoringPersistedImage = false
+    
     init() {
         selectedPixelSize = PixelArtPersistence.loadPixelSize(defaultValue: 18)
         usesTwoColors = PixelArtPersistence.loadUsesTwoColors()
-        
-        Task {
-            await restorePersistedImage()
-        }
     }
     
     var hasImage: Bool {
@@ -207,7 +209,17 @@ final class PixyVM {
         }
     }
     
-    private func restorePersistedImage() async {
+    func restorePersistedImageIfNeeded() async {
+        guard !hasRestoredPersistedImage, !isRestoringPersistedImage else {
+            return
+        }
+        
+        isRestoringPersistedImage = true
+        defer {
+            hasRestoredPersistedImage = true
+            isRestoringPersistedImage = false
+        }
+        
         do {
             let restoredImage = try await Task.detached(priority: .userInitiated) {
                 try PixelArtPersistence.loadImportedImage()
