@@ -21,6 +21,7 @@ struct HomeView: View {
             .padding()
         }
         .navigationTitle("Image to Pixel Art")
+        .scrollIndicators(.never)
         .background(HomeViewBackground())
         .environment(vm)
         .fileImporter(isPresented: $vm.isImportingImage, allowedContentTypes: [.image]) {
