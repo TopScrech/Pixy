@@ -4,7 +4,7 @@ import SwiftUI
 struct PixyApp: App {
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            AppContainer()
         }
     }
 }

@@ -1,7 +1,7 @@
 import ScrechKit
 
 struct DropZone: View {
-    @Bindable var vm: PixyVM
+    @Environment(PixyVM.self) private var vm
     
     var body: some View {
         VStack {
@@ -24,13 +24,7 @@ struct DropZone: View {
                     
                     ViewThatFits(in: .horizontal) {
                         HStack {
-                            Button(
-                                vm.hasImage ? "Replace Image" : "Choose Image",
-                                systemImage: vm.hasImage ? "arrow.trianglehead.2.clockwise.rotate.90" : "folder"
-                            ) {
-                                vm.isImportingImage = true
-                            }
-                            .buttonStyle(.borderedProminent)
+                            ImagePicker()
                             
                             if vm.hasImage {
                                 Button("Clear", systemImage: "trash", action: vm.clearImage)
@@ -39,13 +33,7 @@ struct DropZone: View {
                         }
                         
                         VStack {
-                            Button(
-                                vm.hasImage ? "Replace Image" : "Choose Image",
-                                systemImage: vm.hasImage ? "arrow.trianglehead.2.clockwise.rotate.90" : "folder"
-                            ) {
-                                vm.isImportingImage = true
-                            }
-                            .buttonStyle(.borderedProminent)
+                            ImagePicker()
                             
                             if vm.hasImage {
                                 Button("Clear", systemImage: "trash", action: vm.clearImage)
