@@ -37,10 +37,6 @@ struct ControlsView: View {
             Toggle("Black & White", isOn: $vm.usesTwoColors)
                 .disabled(!vm.hasImage)
             
-            Text("Turns every block into pure black or pure white with no gray shades")
-                .headline()
-                .secondary()
-            
             if let exportURL = vm.exportURL {
                 ShareLink(item: exportURL) {
                     Label("Export PNG", systemImage: "square.and.arrow.up")
