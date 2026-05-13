@@ -21,9 +21,16 @@ struct ControlsView: View {
                 Text(vm.pixelGridLabel)
                     .headline()
                     .secondary()
+                    .monospacedDigit()
             }
             
-            Toggle("Black & White", isOn: $vm.usesTwoColors)
+            Picker("Color mode", selection: $vm.colorMode) {
+                ForEach(PixelColorMode.allCases) {
+                    Text($0.title)
+                        .tag($0)
+                }
+            }
+            .pickerStyle(.segmented)
             
         }
         .padding()

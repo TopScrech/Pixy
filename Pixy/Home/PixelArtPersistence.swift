@@ -10,6 +10,10 @@ struct PixelArtPersistence {
         "pixelArt.usesTwoColors"
     }
     
+    nonisolated private static var colorModeKey: String {
+        "pixelArt.colorMode"
+    }
+    
     nonisolated private static var sourceNameKey: String {
         "pixelArt.sourceName"
     }
@@ -51,12 +55,17 @@ struct PixelArtPersistence {
         UserDefaults.standard.set(pixelSize, forKey: selectedPixelSizeKey)
     }
     
-    nonisolated static func loadUsesTwoColors() -> Bool {
-        UserDefaults.standard.bool(forKey: usesTwoColorsKey)
+    nonisolated static func loadColorMode() -> PixelColorMode {
+        if let rawValue = UserDefaults.standard.string(forKey: colorModeKey),
+           let colorMode = PixelColorMode(rawValue: rawValue) {
+            return colorMode
+        }
+        
+        return UserDefaults.standard.bool(forKey: usesTwoColorsKey) ? .blackAndWhite : .color
     }
     
-    nonisolated static func saveUsesTwoColors(_ usesTwoColors: Bool) {
-        UserDefaults.standard.set(usesTwoColors, forKey: usesTwoColorsKey)
+    nonisolated static func saveColorMode(_ colorMode: PixelColorMode) {
+        UserDefaults.standard.set(colorMode.rawValue, forKey: colorModeKey)
     }
     
     nonisolated static func saveImportedImage(image: CGImage, sourceURL: URL?, sourceName: String) throws {

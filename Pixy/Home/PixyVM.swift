@@ -9,9 +9,9 @@ final class PixyVM {
         }
     }
     
-    var usesTwoColors = false {
+    var colorMode = PixelColorMode.color {
         didSet {
-            PixelArtPersistence.saveUsesTwoColors(usesTwoColors)
+            PixelArtPersistence.saveColorMode(colorMode)
             schedulePixelArtRefresh()
         }
     }
@@ -45,7 +45,7 @@ final class PixyVM {
     
     init() {
         selectedPixelSize = PixelArtPersistence.loadPixelSize(defaultValue: 18)
-        usesTwoColors = PixelArtPersistence.loadUsesTwoColors()
+        colorMode = PixelArtPersistence.loadColorMode()
     }
     
     var hasImage: Bool {
@@ -221,14 +221,14 @@ final class PixyVM {
     private func renderPixelArt(for image: CGImage, revision: Int) async {
         let pixelLength = max(1, Int(selectedPixelSize.rounded()))
         let sourceName = sourceName
-        let usesTwoColors = usesTwoColors
+        let colorMode = colorMode
         
         do {
             let rendered = try await Task.detached(priority: .userInitiated) {
                 guard let pixelizedImage = Renderer.pixelize(
                     image,
                     pixelLength: pixelLength,
-                    usesTwoColors: usesTwoColors
+                    colorMode: colorMode
                 ) else {
                     throw Renderer.Failure.unableToCreateContext
                 }
@@ -237,7 +237,7 @@ final class PixyVM {
                     image: pixelizedImage,
                     sourceName: sourceName,
                     pixelLength: pixelLength,
-                    usesTwoColors: usesTwoColors
+                    colorMode: colorMode
                 )
                 
                 return (pixelizedImage, exportURL)

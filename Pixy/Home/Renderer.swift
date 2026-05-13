@@ -68,7 +68,7 @@ struct Renderer {
         return (image, name)
     }
     
-    nonisolated static func pixelize(_ image: CGImage, pixelLength: Int, usesTwoColors: Bool) -> CGImage? {
+    nonisolated static func pixelize(_ image: CGImage, pixelLength: Int, colorMode: PixelColorMode) -> CGImage? {
         let pixelWidth = max(1, image.width / max(1, pixelLength))
         let pixelHeight = max(1, image.height / max(1, pixelLength))
         let colorSpace = CGColorSpace(name: CGColorSpace.sRGB) ?? CGColorSpaceCreateDeviceRGB()
@@ -95,24 +95,26 @@ struct Renderer {
         
         let outputImage: CGImage
         
-        if usesTwoColors {
-            guard let blackAndWhiteImage = twoColorImage(from: reducedImage) else {
+        switch colorMode {
+        case .color:
+            outputImage = reducedImage
+            
+        case .grayscale, .blackAndWhite:
+            guard let mappedImage = colorMappedImage(from: reducedImage, colorMode: colorMode) else {
                 return nil
             }
             
-            outputImage = blackAndWhiteImage
-        } else {
-            outputImage = reducedImage
+            outputImage = mappedImage
         }
         
         return outputImage
     }
     
-    nonisolated static func writePNG(image: CGImage, sourceName: String, pixelLength: Int, usesTwoColors: Bool) throws -> URL {
+    nonisolated static func writePNG(image: CGImage, sourceName: String, pixelLength: Int, colorMode: PixelColorMode) throws -> URL {
         let fileName = sanitizedFileName(
             for: sourceName,
             pixelLength: pixelLength,
-            usesTwoColors: usesTwoColors
+            colorMode: colorMode
         )
         
         let url = URL.cachesDirectory.appending(path: fileName)
@@ -136,7 +138,7 @@ struct Renderer {
         }
     }
     
-    nonisolated private static func twoColorImage(from image: CGImage) -> CGImage? {
+    nonisolated private static func colorMappedImage(from image: CGImage, colorMode: PixelColorMode) -> CGImage? {
         let colorSpace = CGColorSpace(name: CGColorSpace.sRGB) ?? CGColorSpaceCreateDeviceRGB()
         let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue
         
@@ -175,7 +177,10 @@ struct Renderer {
             let green = Double(pixels[pixelOffset + 1])
             let blue = Double(pixels[pixelOffset + 2])
             let luminance = (0.2126 * red) + (0.7152 * green) + (0.0722 * blue)
-            let colorValue: UInt8 = luminance >= 128 ? 255 : 0
+            let colorValue = switch colorMode {
+            case .color, .grayscale: UInt8(luminance.rounded())
+            case .blackAndWhite: luminance >= 128 ? UInt8(255) : UInt8(0)
+            }
             
             pixels[pixelOffset] = colorValue
             pixels[pixelOffset + 1] = colorValue
@@ -185,14 +190,13 @@ struct Renderer {
         return context.makeImage()
     }
     
-    nonisolated private static func sanitizedFileName(for sourceName: String, pixelLength: Int, usesTwoColors: Bool) -> String {
+    nonisolated private static func sanitizedFileName(for sourceName: String, pixelLength: Int, colorMode: PixelColorMode) -> String {
         let cleanedName = sourceName
             .replacing(/[^\p{Letter}\p{Number}]+/, with: "-")
             .trimmingCharacters(in: CharacterSet(charactersIn: "-"))
         
         let fallbackName = cleanedName.isEmpty ? "pixel-art" : cleanedName
-        let colorModeSuffix = usesTwoColors ? "-black-white" : ""
         
-        return "\(fallbackName)-\(pixelLength.formatted())px\(colorModeSuffix).png"
+        return "\(fallbackName)-\(pixelLength.formatted())px\(colorMode.fileNameSuffix).png"
     }
 }
