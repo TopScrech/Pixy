@@ -4,6 +4,7 @@ import CoreGraphics
 private let pixelArtSelectedPixelSizeKey = "pixelArt.selectedPixelSize"
 private let pixelArtUsesTwoColorsKey = "pixelArt.usesTwoColors"
 private let pixelArtSourceNameKey = "pixelArt.sourceName"
+private let pixelArtPersistedImageFolderName = "Pixy"
 private let pixelArtPersistedImageName = "last-imported-image.png"
 
 struct PixelArtPersistence {
@@ -33,6 +34,7 @@ struct PixelArtPersistence {
     
     static func loadImportedImage() throws -> (image: CGImage, sourceName: String)? {
         let imageURL = try persistedImageURL()
+        try migratePersistedImageIfNeeded(to: imageURL)
         
         guard FileManager.default.fileExists(atPath: imageURL.path()) else {
             return nil
@@ -46,20 +48,41 @@ struct PixelArtPersistence {
     
     static func removeImportedImage() {
         let imageURL = try? persistedImageURL()
+        let legacyImageURL = legacyPersistedImageURL()
         
         if let imageURL {
             try? FileManager.default.removeItem(at: imageURL)
+        }
+        
+        if let legacyImageURL {
+            try? FileManager.default.removeItem(at: legacyImageURL)
         }
         
         UserDefaults.standard.removeObject(forKey: pixelArtSourceNameKey)
     }
     
     private static func persistedImageURL() throws -> URL {
-        let directory = URL.applicationSupportDirectory
-            .appending(path: "Image to Pixel Art", directoryHint: .isDirectory)
+        let directory = URL.documentsDirectory
+            .appending(path: pixelArtPersistedImageFolderName, directoryHint: .isDirectory)
         
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         
         return directory.appending(path: pixelArtPersistedImageName)
+    }
+    
+    private static func legacyPersistedImageURL() -> URL? {
+        URL.applicationSupportDirectory
+            .appending(path: "Image to Pixel Art", directoryHint: .isDirectory)
+            .appending(path: pixelArtPersistedImageName)
+    }
+    
+    private static func migratePersistedImageIfNeeded(to imageURL: URL) throws {
+        guard !FileManager.default.fileExists(atPath: imageURL.path()),
+              let legacyImageURL = legacyPersistedImageURL(),
+              FileManager.default.fileExists(atPath: legacyImageURL.path()) else {
+            return
+        }
+        
+        try FileManager.default.copyItem(at: legacyImageURL, to: imageURL)
     }
 }
