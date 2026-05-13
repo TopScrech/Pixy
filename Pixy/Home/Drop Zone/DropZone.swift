@@ -17,10 +17,7 @@ struct DropZone: View {
                     
                     Text(vm.hasImage ? "Drop another image to replace the current one" : "Drop an image here")
                         .title2(.bold)
-                    
-                    Text(vm.hasImage ? vm.sourceName : "Or pick one from your files")
-                        .headline()
-                        .secondary()
+                        .multilineTextAlignment(.center)
                     
                     DropZoneActions()
                 }
