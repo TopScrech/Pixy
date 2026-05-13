@@ -30,6 +30,9 @@ final class PixyVM {
     private var refreshTask: Task<Void, Never>?
     
     @ObservationIgnored
+    private var persistenceTask: Task<Void, Never>?
+    
+    @ObservationIgnored
     private var renderRevision = 0
     
     init() {
@@ -71,6 +74,7 @@ final class PixyVM {
     
     func clearImage() {
         refreshTask?.cancel()
+        persistenceTask?.cancel()
         renderRevision += 1
         originalImage = nil
         pixelizedImage = nil
@@ -125,7 +129,7 @@ final class PixyVM {
             originalImage = loadedImage.image
             sourceName = loadedImage.name
             isLoadingImage = false
-            persistImportedImage(loadedImage.image, sourceName: loadedImage.name)
+            persistImportedImage(from: url, sourceName: loadedImage.name)
             
             schedulePixelArtRefresh()
         } catch {
@@ -193,7 +197,11 @@ final class PixyVM {
     
     private func restorePersistedImage() async {
         do {
-            guard let restoredImage = try PixelArtPersistence.loadImportedImage() else {
+            let restoredImage = try await Task.detached(priority: .userInitiated) {
+                try PixelArtPersistence.loadImportedImage()
+            }.value
+            
+            guard let restoredImage else {
                 return
             }
             
@@ -205,7 +213,10 @@ final class PixyVM {
         }
     }
     
-    private func persistImportedImage(_ image: CGImage, sourceName: String) {
-        try? PixelArtPersistence.saveImportedImage(image, sourceName: sourceName)
+    private func persistImportedImage(from url: URL, sourceName: String) {
+        persistenceTask?.cancel()
+        persistenceTask = Task.detached(priority: .utility) {
+            try? PixelArtPersistence.saveImportedImage(from: url, sourceName: sourceName)
+        }
     }
 }

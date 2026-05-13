@@ -82,22 +82,7 @@ struct Renderer {
             outputImage = reducedImage
         }
         
-        guard let outputContext = CGContext(
-            data: nil,
-            width: image.width,
-            height: image.height,
-            bitsPerComponent: 8,
-            bytesPerRow: 0,
-            space: colorSpace,
-            bitmapInfo: bitmapInfo
-        ) else {
-            return nil
-        }
-        
-        outputContext.interpolationQuality = .none
-        outputContext.draw(outputImage, in: CGRect(x: 0, y: 0, width: image.width, height: image.height))
-        
-        return outputContext.makeImage()
+        return outputImage
     }
     
     nonisolated static func writePNG(image: CGImage, sourceName: String, pixelLength: Int, usesTwoColors: Bool) throws -> URL {
