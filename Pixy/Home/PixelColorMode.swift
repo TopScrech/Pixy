@@ -1,11 +1,11 @@
 enum PixelColorMode: String, CaseIterable, Identifiable {
     case color, grayscale, blackAndWhite
     
-    var id: Self {
+    nonisolated var id: Self {
         self
     }
     
-    var title: String {
+    nonisolated var title: String {
         switch self {
         case .color: "Color"
         case .grayscale: "Grayscale"
@@ -13,7 +13,7 @@ enum PixelColorMode: String, CaseIterable, Identifiable {
         }
     }
     
-    var fileNameSuffix: String {
+    nonisolated var fileNameSuffix: String {
         switch self {
         case .color: ""
         case .grayscale: "-grayscale"
