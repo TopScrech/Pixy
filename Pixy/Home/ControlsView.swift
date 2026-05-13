@@ -9,7 +9,7 @@ struct ControlsView: View {
         VStack(alignment: .leading) {
             Text("Pixel settings")
                 .title2(.bold)
-                        
+            
             VStack(alignment: .leading) {
                 LabeledContent("Pixel size") {
                     Text(vm.pixelSizeLabel)
@@ -17,21 +17,13 @@ struct ControlsView: View {
                 }
                 
                 Slider(value: $vm.selectedPixelSize, in: 1...100, step: 1)
-                    .disabled(!vm.hasImage)
                 
-                if vm.hasImage {
-                    Text(vm.pixelGridLabel)
-                        .headline()
-                        .secondary()
-                } else {
-                    Text("Choose or drop an image to unlock the preview")
-                        .headline()
-                        .secondary()
-                }
+                Text(vm.pixelGridLabel)
+                    .headline()
+                    .secondary()
             }
             
             Toggle("Black & White", isOn: $vm.usesTwoColors)
-                .disabled(!vm.hasImage)
             
             if let exportURL = vm.exportURL {
                 ShareLink(item: exportURL) {

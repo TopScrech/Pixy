@@ -14,9 +14,8 @@ struct HomeView: View {
                 
                 if vm.hasImage {
                     PreviewCard()
+                    ControlsView()
                 }
-                
-                ControlsView()
             }
             .frame(maxWidth: 1120)
             .frame(maxWidth: .infinity, alignment: .center)
