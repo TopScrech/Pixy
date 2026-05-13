@@ -9,11 +9,7 @@ struct ControlsView: View {
         VStack(alignment: .leading) {
             Text("Pixel settings")
                 .title2(.bold)
-            
-            Text("Increase the block size for a chunkier result and export the PNG when it looks right")
-                .headline()
-                .secondary()
-            
+                        
             VStack(alignment: .leading) {
                 LabeledContent("Pixel size") {
                     Text(vm.pixelSizeLabel)
