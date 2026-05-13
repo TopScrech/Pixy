@@ -8,7 +8,7 @@ struct PreviewCard: View {
             Text("Pixelized")
                 .title3(.bold)
             
-            Text(vm.pixelGridLabel)
+            Label("\(vm.sourceDimensionsLabel)", systemImage: "photo")
                 .headline()
                 .secondary()
             
@@ -43,10 +43,6 @@ struct PreviewCard: View {
             }
             .aspectRatio(vm.sourceAspectRatio, contentMode: .fit)
             .frame(maxWidth: .infinity, minHeight: 320)
-            
-            Text("Original image resolution: \(vm.sourceDimensionsLabel) px")
-                .headline()
-                .secondary()
         }
         .padding()
         .background(.ultraThinMaterial, in: .rect(cornerRadius: 32))
