@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 100;
+	objectVersion = 110;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,6 +14,7 @@
 		F31EEA8F2FB4CD0E000ECD36 /* UNLICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = UNLICENSE.txt; sourceTree = "<group>"; };
 		F35A627A2F60E4CE00D70FAF /* Pixy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pixy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3A8126F2FA8AA5B006CA117 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		F3ED4B3530573AE900B6F884 /* AGENTS.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AGENTS.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -38,6 +39,7 @@
 			isa = PBXGroup;
 			children = (
 				F3A8126F2FA8AA5B006CA117 /* README.md */,
+				F3ED4B3530573AE900B6F884 /* AGENTS.md */,
 				F35A627C2F60E4CE00D70FAF /* Pixy */,
 				F31EEA8F2FB4CD0E000ECD36 /* UNLICENSE.txt */,
 				F35A627B2F60E4CE00D70FAF /* Products */,
@@ -103,7 +105,7 @@
 			packageReferences = (
 				F35A62892F60E4D100D70FAF /* XCRemoteSwiftPackageReference "ScrechKit" */,
 			);
-			preferredProjectObjectVersion = 100;
+			preferredProjectObjectVersion = 110;
 			productRefGroup = F35A627B2F60E4CE00D70FAF /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
